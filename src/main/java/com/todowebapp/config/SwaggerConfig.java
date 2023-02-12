@@ -24,7 +24,7 @@ public class SwaggerConfig {
 
     @Bean
     public Docket api_v2() {
-        String version = "v1";
+        String version = "V1";
         String made = " made by : ysmin";
         String title = "JPA Rest API_" + version;
         String description = "Todo Web API_" + version + made;

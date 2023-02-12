@@ -3,10 +3,12 @@ package com.todowebapp.model;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @Entity(name = "todo")
 public class TodoEntity {
