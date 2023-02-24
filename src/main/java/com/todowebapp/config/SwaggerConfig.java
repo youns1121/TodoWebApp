@@ -28,7 +28,7 @@ public class SwaggerConfig {
         String made = " made by : ysmin";
         String title = "JPA Rest API_" + version;
         String description = "Todo Web API_" + version + made;
-        String antPattern = "/" + version.toLowerCase() + "/api/**";
+        String antPattern = "/api/" + version.toLowerCase() + "/**";
 
         return buildApiDocket(version, made, title, description, antPattern);
     }

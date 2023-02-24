@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/v1/api")
+@RequestMapping("/api/v1")
 public class TodoController {
 
     private final TodoService todoService;
