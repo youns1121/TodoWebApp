@@ -4,6 +4,7 @@ import com.todowebapp.model.UserEntity;
 import com.todowebapp.persistence.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,8 +32,13 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public UserEntity getByCredentials(final String username, final String password) {
+    public UserEntity getByCredentials(final String username, final String password, final PasswordEncoder encoder) {
 
-        return userRepository.findByUsernameAndPassword(username, password);
+        UserEntity originalUser = userRepository.findByUsername(username);
+
+        if(originalUser != null && encoder.matches(password, originalUser.getPassword())) {
+            return originalUser;
+        }
+        return null;
     }
 }

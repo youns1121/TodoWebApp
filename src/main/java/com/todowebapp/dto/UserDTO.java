@@ -30,7 +30,7 @@ public class UserDTO {
         this.id = id;
     }
 
-    public UserDTO to(UserEntity userEntity){
+    public UserDTO toDTO(UserEntity userEntity){
 
         return UserDTO.builder()
                 .id(userEntity.getId())

@@ -7,6 +7,8 @@ import com.todowebapp.security.TokenProvider;
 import com.todowebapp.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,8 @@ public class UserController {
 
     private final TokenProvider tokenProvider;
 
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
 
@@ -28,32 +32,27 @@ public class UserController {
             if(userDTO == null || userDTO.getPassword() == null) {
                 throw new RuntimeException("Invalid Password Value");
             }
-            UserEntity registeredUser = userService.create(UserEntity.createUser(userDTO));
-            UserDTO responseUserDTO = userDTO.to(registeredUser);
 
-            return ResponseEntity.ok().body(responseUserDTO);
+            userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+            UserEntity registeredUser = userService.create(UserEntity.createUser(userDTO));
+
+            return ResponseEntity.ok().body(userDTO.toDTO(registeredUser));
         } catch (Exception e){
-            return ResponseEntity
-                    .badRequest()
-                    .body(ResponseDTO.builder().error(e.getMessage()).build());
+            return ResponseEntity.badRequest().body(ResponseDTO.builder().error(e.getMessage()).build());
         }
     }
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticate(@RequestBody UserDTO userDTO) {
 
-        UserEntity user = userService.getByCredentials(userDTO.getUsername(), userDTO.getPassword());
+        UserEntity user = userService.getByCredentials(userDTO.getUsername(), userDTO.getPassword(), passwordEncoder);
 
         if(user != null) {
-
-            UserDTO responseUserDTO = userDTO.to(user);
+            UserDTO responseUserDTO = userDTO.toDTO(user);
             responseUserDTO.setToken(tokenProvider.create(user));
-
             return ResponseEntity.ok().body(responseUserDTO);
         }
 
-        return ResponseEntity
-                .badRequest()
-                .body(ResponseDTO.builder().error("Login Failed").build());
+        return ResponseEntity.badRequest().body(ResponseDTO.builder().error("Login Failed").build());
     }
 }

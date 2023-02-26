@@ -62,7 +62,7 @@ public class SwaggerConfig {
     }
 
     private ApiKey apiKey() {
-        return new ApiKey("JWT", "jwt", "header");
+        return new ApiKey("Bearer", "Bearer", "header");
     }
 
     private List<ResponseMessage> responseMessages() {
