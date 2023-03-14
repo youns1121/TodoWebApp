@@ -1,4 +1,4 @@
-package com.todowebapp.model;
+package com.todowebapp.domain.todo.domain;
 
 import lombok.Builder;
 import lombok.Getter;

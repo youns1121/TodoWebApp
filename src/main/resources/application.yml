@@ -1,0 +1,34 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    default: dev # 기본 환경을 dev로
+
+  mvc:
+    path match:
+      matching-strategy: ant_path_matcher
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mlb?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: ysmin
+    password: wjdqhqhdks
+
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: update # create : 기존 테이블 드랍후 새로 생성
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      use-new-id-generator-mappings: false #true라면 JPA가 사용하는 기본 넘버링 전략으로 사용됨
+
+    properties:
+      hibernate:
+        default_batch_fetch_size: 1000 # 기본 batch size 설정
+        format_sql: true # sql이 한줄 출력이 아닌 정렬됨
+        show-sql: true # 테이블 생성 정보가 console상에 출력됨
+
+
+logging.level:
+  org.hibernate.SQL: debug
+

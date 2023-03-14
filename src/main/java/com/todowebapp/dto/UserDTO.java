@@ -1,6 +1,6 @@
 package com.todowebapp.dto;
 
-import com.todowebapp.model.UserEntity;
+import com.todowebapp.domain.user.domain.UserEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,6 +35,13 @@ public class UserDTO {
         return UserDTO.builder()
                 .id(userEntity.getId())
                 .username(userEntity.getUsername())
+                .build();
+    }
+
+    public UserEntity toEntity() {
+        return UserEntity.builder()
+                .username(this.username)
+                .password(this.password)
                 .build();
     }
 }

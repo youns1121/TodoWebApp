@@ -1,6 +1,6 @@
 package com.todowebapp.security;
 
-import com.todowebapp.model.UserEntity;
+import com.todowebapp.domain.user.domain.UserEntity;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;

@@ -3,16 +3,17 @@ package com.todowebapp.config;
 import com.todowebapp.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.filter.CorsFilter;
 
 @Slf4j
 @RequiredArgsConstructor
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
@@ -20,23 +21,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/", "/v2/api-docs", "/swagger*/**", "/webjars/**", "/api/v1/auth/**", "/csrf"
     };
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
                 .cors()
                 .and()
-                .csrf()
-                    .disable()
-                .httpBasic()
-                    .disable()
+                .csrf().disable()
+                .httpBasic().disable()
                 .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                    .antMatchers(PERMIT_URL_ARRAY).permitAll()
+                .antMatchers(PERMIT_URL_ARRAY).permitAll()
                 .anyRequest()
-                    .authenticated();
-        http.addFilterAfter(jwtAuthenticationFilter, CorsFilter.class);
+                .authenticated();
+
+        return http.addFilterAfter(jwtAuthenticationFilter, CorsFilter.class).build();
     }
 }

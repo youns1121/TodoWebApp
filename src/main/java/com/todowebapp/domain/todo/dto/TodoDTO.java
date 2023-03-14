@@ -1,6 +1,6 @@
-package com.todowebapp.dto;
+package com.todowebapp.domain.todo.dto;
 
-import com.todowebapp.model.TodoEntity;
+import com.todowebapp.domain.todo.domain.TodoEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

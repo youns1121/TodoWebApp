@@ -1,6 +1,6 @@
-package com.todowebapp.persistence;
+package com.todowebapp.domain.todo.repository;
 
-import com.todowebapp.model.TodoEntity;
+import com.todowebapp.domain.todo.domain.TodoEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

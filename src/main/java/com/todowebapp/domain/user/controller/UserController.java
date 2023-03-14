@@ -1,10 +1,10 @@
-package com.todowebapp.controller;
+package com.todowebapp.domain.user.controller;
 
 import com.todowebapp.dto.ResponseDTO;
 import com.todowebapp.dto.UserDTO;
-import com.todowebapp.model.UserEntity;
+import com.todowebapp.domain.user.domain.UserEntity;
 import com.todowebapp.security.TokenProvider;
-import com.todowebapp.service.UserService;
+import com.todowebapp.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -33,8 +33,7 @@ public class UserController {
                 throw new RuntimeException("Invalid Password Value");
             }
 
-            userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-            UserEntity registeredUser = userService.create(UserEntity.createUser(userDTO));
+            UserEntity registeredUser = userService.create(userDTO);
 
             return ResponseEntity.ok().body(userDTO.toDTO(registeredUser));
         } catch (Exception e){

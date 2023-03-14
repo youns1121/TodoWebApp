@@ -1,11 +1,13 @@
-package com.todowebapp.persistence;
+package com.todowebapp.domain.user.repository;
 
-import com.todowebapp.model.UserEntity;
+import com.todowebapp.domain.user.domain.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<UserEntity, String> {
 
-    UserEntity findByUsername(String username);
+    Optional<UserEntity> findByUsername(String username);
 
     Boolean existsByUsername(String username);
 

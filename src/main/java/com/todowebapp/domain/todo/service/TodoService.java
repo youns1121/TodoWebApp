@@ -1,7 +1,7 @@
-package com.todowebapp.service;
+package com.todowebapp.domain.todo.service;
 
-import com.todowebapp.model.TodoEntity;
-import com.todowebapp.persistence.TodoRepository;
+import com.todowebapp.domain.todo.domain.TodoEntity;
+import com.todowebapp.domain.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
