@@ -11,12 +11,8 @@ import java.util.stream.Collectors;
 
 public class UserAdapter extends User {
 
-    private UserEntity userEntity;
-
-
     public UserAdapter(UserEntity userEntity) {
         super(userEntity.getUsername(), userEntity.getPassword(), authorities(userEntity.getUserRole()));
-        this.userEntity = userEntity;
     }
 
     public static UserAdapter from(UserEntity userEntity) {

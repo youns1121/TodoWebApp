@@ -1,4 +1,4 @@
-package com.todowebapp.dto;
+package com.todowebapp.domain.user.dto;
 
 import com.todowebapp.domain.user.domain.UserEntity;
 import io.swagger.annotations.ApiModelProperty;

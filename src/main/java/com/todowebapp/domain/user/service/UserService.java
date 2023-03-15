@@ -3,7 +3,8 @@ package com.todowebapp.domain.user.service;
 import com.todowebapp.domain.user.domain.UserAdapter;
 import com.todowebapp.domain.user.domain.UserEntity;
 import com.todowebapp.domain.user.repository.UserRepository;
-import com.todowebapp.dto.UserDTO;
+import com.todowebapp.domain.user.dto.UserDTO;
+import com.todowebapp.exception.DataNotFoundException;
 import com.todowebapp.util.SaltUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,8 +28,8 @@ public class UserService implements UserDetailsService {
     public UserEntity create(final UserDTO userDTO){
 
         if(userRepository.existsByUsername(userDTO.getUsername())) {
-            log.warn("Username already exists {}", userDTO.getUsername());
-            throw new RuntimeException("Username already exists");
+            log.warn("Username already exists username {}", userDTO.getUsername());
+            throw new DataNotFoundException("Username already exists");
         }
 
         return userRepository.save(UserEntity.createUser(userDTO, saltUtil));

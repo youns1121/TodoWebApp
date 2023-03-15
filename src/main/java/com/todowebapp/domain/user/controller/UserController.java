@@ -1,7 +1,7 @@
 package com.todowebapp.domain.user.controller;
 
 import com.todowebapp.dto.ResponseDTO;
-import com.todowebapp.dto.UserDTO;
+import com.todowebapp.domain.user.dto.UserDTO;
 import com.todowebapp.domain.user.domain.UserEntity;
 import com.todowebapp.security.TokenProvider;
 import com.todowebapp.domain.user.service.UserService;

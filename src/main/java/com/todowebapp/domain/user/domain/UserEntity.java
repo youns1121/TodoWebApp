@@ -2,7 +2,7 @@ package com.todowebapp.domain.user.domain;
 
 import com.todowebapp.domain.Salt.Salt;
 import com.todowebapp.domain.user.enums.UserRole;
-import com.todowebapp.dto.UserDTO;
+import com.todowebapp.domain.user.dto.UserDTO;
 import com.todowebapp.util.SaltUtil;
 import lombok.Builder;
 import lombok.Getter;
