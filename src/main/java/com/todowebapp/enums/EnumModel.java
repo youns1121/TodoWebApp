@@ -1,4 +1,4 @@
-package com.todowebapp.domain.user.enums;
+package com.todowebapp.enums;
 
 public interface EnumModel {
 
