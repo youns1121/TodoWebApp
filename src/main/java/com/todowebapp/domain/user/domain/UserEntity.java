@@ -16,7 +16,7 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = "username")})
+@Table(name = "user", uniqueConstraints = {@UniqueConstraint(columnNames = "username")})
 public class UserEntity {
 
     @Id
@@ -35,7 +35,7 @@ public class UserEntity {
     private Salt salt;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "user_status")
+    @Column(name = "status")
     private UserStatus userStatus;
 
     @ElementCollection(fetch = FetchType.EAGER)

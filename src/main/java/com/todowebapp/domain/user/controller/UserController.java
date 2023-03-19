@@ -1,8 +1,11 @@
 package com.todowebapp.domain.user.controller;
 
+import com.todowebapp.domain.user.enums.UserEnums;
 import com.todowebapp.dto.ResponseDTO;
 import com.todowebapp.domain.user.dto.UserDTO;
 import com.todowebapp.domain.user.domain.UserEntity;
+import com.todowebapp.enums.ResponseEnum;
+import com.todowebapp.handler.ResponseHandler;
 import com.todowebapp.security.TokenProvider;
 import com.todowebapp.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -25,24 +28,20 @@ public class UserController {
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+    private final ResponseHandler responseHandler;
+
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<?> signUpUser(@RequestBody UserDTO userDTO) {
 
-        try{
-            if(userDTO == null || userDTO.getPassword() == null) {
-                throw new RuntimeException("Invalid Password Value");
-            }
-
-            UserEntity registeredUser = userService.create(userDTO);
-
-            return ResponseEntity.ok().body(userDTO.toDTO(registeredUser));
-        } catch (Exception e){
-            return ResponseEntity.badRequest().body(ResponseDTO.builder().error(e.getMessage()).build());
+        UserEnums response = userService.insertUser(userDTO);
+        if(response != UserEnums.OK) {
+            return responseHandler.fail(response.getKey(), response.getValue());
         }
+        return responseHandler.ok();
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticate(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<?> signInUser(@RequestBody UserDTO userDTO) {
 
         UserEntity user = userService.getByCredentials(userDTO.getUsername(), userDTO.getPassword(), passwordEncoder);
 

@@ -1,6 +1,5 @@
 package com.todowebapp.enums;
 
-import com.todowebapp.domain.user.enums.EnumModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -8,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ResponseEnum implements EnumModel {
 
-    SUCCESS("0000", "SUCCESS"),
+    OK("0000", "OK"),
     FAIL("9999", "FAIL"),
 
     INVALID_ARGUMENT("9001", "잘못된 요청값 입니다"),
