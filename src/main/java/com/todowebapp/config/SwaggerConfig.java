@@ -8,10 +8,9 @@ import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.builders.ResponseMessageBuilder;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.ApiKey;
-import springfox.documentation.service.ResponseMessage;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -36,13 +35,15 @@ public class SwaggerConfig {
 
     private Docket buildApiDocket(String version, String made, String title, String description, String antPattern){
         return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo(version, title, description))
+                .securityContexts(List.of(securityContext()))
+                .securitySchemes(List.of(apiKey()))
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.ant(antPattern))
                 .build()
                 .useDefaultResponseMessages(false)
                 .groupName(version)
-                .apiInfo(apiInfo(version, title, description))
                 .securitySchemes(List.of(apiKey()))
                 .globalResponseMessage(RequestMethod.GET, responseMessages())
                 .globalResponseMessage(RequestMethod.POST, responseMessages())
@@ -61,7 +62,18 @@ public class SwaggerConfig {
     }
 
     private ApiKey apiKey() {
-        return new ApiKey("Bearer", "Bearer", "header");
+        return new ApiKey("JWT","Authorization", "header");
+    }
+
+    private SecurityContext securityContext() {
+        return SecurityContext.builder().securityReferences(defaultAuth()).build();
+    }
+
+    private List<SecurityReference> defaultAuth() {
+        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = authorizationScope;
+        return List.of(new SecurityReference("JWT", authorizationScopes));
     }
 
     private List<ResponseMessage> responseMessages() {
