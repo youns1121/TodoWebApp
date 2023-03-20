@@ -3,8 +3,7 @@ package com.todowebapp.domain.user.controller;
 import com.todowebapp.domain.user.enums.UserEnums;
 import com.todowebapp.dto.ResponseDTO;
 import com.todowebapp.domain.user.dto.UserDTO;
-import com.todowebapp.domain.user.domain.UserEntity;
-import com.todowebapp.enums.ResponseEnum;
+import com.todowebapp.domain.user.domain.Users;
 import com.todowebapp.handler.ResponseHandler;
 import com.todowebapp.security.TokenProvider;
 import com.todowebapp.domain.user.service.UserService;
@@ -43,11 +42,11 @@ public class UserController {
     @PostMapping("/signin")
     public ResponseEntity<?> signInUser(@RequestBody UserDTO userDTO) {
 
-        UserEntity user = userService.getByCredentials(userDTO.getUsername(), userDTO.getPassword(), passwordEncoder);
+        Users users = userService.getByCredentials(userDTO.getUsername(), userDTO.getPassword(), passwordEncoder);
 
-        if(user != null) {
-            UserDTO responseUserDTO = userDTO.toDTO(user);
-            responseUserDTO.setToken(tokenProvider.create(user));
+        if(users != null) {
+            UserDTO responseUserDTO = userDTO.toDTO(users);
+            responseUserDTO.setToken(tokenProvider.create(users));
             return ResponseEntity.ok().body(responseUserDTO);
         }
 

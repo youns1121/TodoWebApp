@@ -1,7 +1,7 @@
 package com.todowebapp.domain.user.service;
 
 import com.todowebapp.domain.user.domain.UserAdapter;
-import com.todowebapp.domain.user.domain.UserEntity;
+import com.todowebapp.domain.user.domain.Users;
 import com.todowebapp.domain.user.enums.UserEnums;
 import com.todowebapp.domain.user.repository.UserRepository;
 import com.todowebapp.domain.user.dto.UserDTO;
@@ -34,17 +34,17 @@ public class UserService implements UserDetailsService {
         if(userRepository.existsByUsername(userDTO.getUsername())) {
             return UserEnums.USERNAME_ALREADY_EXISTS;
         }
-        userRepository.save(UserEntity.createUser(userDTO, saltUtil));
+        userRepository.save(Users.createUser(userDTO, saltUtil));
         return UserEnums.OK;
     }
 
     @Transactional(readOnly = true)
-    public UserEntity getByCredentials(final String username, final String password, final PasswordEncoder encoder) {
+    public Users getByCredentials(final String username, final String password, final PasswordEncoder encoder) {
 
-        UserEntity originalUser = userRepository.findByUsername(username).orElse(null);
+        Users originalUsers = userRepository.findByUsername(username).orElse(null);
 
-        if(originalUser != null && encoder.matches(password, originalUser.getPassword())) {
-            return originalUser;
+        if(originalUsers != null && encoder.matches(password, originalUsers.getPassword())) {
+            return originalUsers;
         }
         return null;
     }
@@ -52,9 +52,9 @@ public class UserService implements UserDetailsService {
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) {
-        UserEntity userEntity = userRepository.findByUsername(username)
+        Users usersEntity = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(UserEnums.USERNAME_NOT_FOUND.getValue()));
 
-        return UserAdapter.from(userEntity);
+        return UserAdapter.from(usersEntity);
     }
 }

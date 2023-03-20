@@ -1,6 +1,6 @@
 package com.todowebapp.security;
 
-import com.todowebapp.domain.user.domain.UserEntity;
+import com.todowebapp.domain.user.domain.Users;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
@@ -17,11 +17,11 @@ public class TokenProvider {
     private static final String SECRET_KEY = "NMA8JPctFuna59f5NMA8JPctFuna59f5NMA8JPctFuna59f5NMA8JPctFuna59f5NMA8JPctFun" +
             "a59f5NMA8JPctFuna59f5NMA8JPctFuna59f5NMA8JPctFuna59f5NMA8JPctFuna59f5NMA8JPctFuna59f5";
 
-    public String create(UserEntity userEntity) {
+    public String create(Users usersEntity) {
 
         return Jwts.builder()
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
-                .setSubject(userEntity.getId())
+                .setSubject(usersEntity.getId())
                 .setIssuer("todo app")
                 .setIssuedAt(new Date())
                 .setExpiration(Date.from(Instant.now().plus(1, ChronoUnit.DAYS)))

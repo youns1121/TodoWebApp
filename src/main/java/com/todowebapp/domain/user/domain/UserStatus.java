@@ -7,7 +7,7 @@ public enum UserStatus {
     DELETED("사용자에 의해 탈퇴처리 된 사용자")
     ;
 
-    private String value;
+    private final String value;
 
     UserStatus(String value) {
         this.value = value;

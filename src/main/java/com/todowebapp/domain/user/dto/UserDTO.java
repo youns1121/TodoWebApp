@@ -1,6 +1,6 @@
 package com.todowebapp.domain.user.dto;
 
-import com.todowebapp.domain.user.domain.UserEntity;
+import com.todowebapp.domain.user.domain.Users;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,25 +23,18 @@ public class UserDTO {
     private String id;
 
     @Builder
-    public UserDTO(String token, String username, String password, String id) {
-        this.token = token;
+    public UserDTO(String username, String password, String token, String id) {
         this.username = username;
         this.password = password;
+        this.token = token;
         this.id = id;
     }
 
-    public UserDTO toDTO(UserEntity userEntity){
+    public UserDTO toDTO(Users usersEntity){
 
         return UserDTO.builder()
-                .id(userEntity.getId())
-                .username(userEntity.getUsername())
-                .build();
-    }
-
-    public UserEntity toEntity() {
-        return UserEntity.builder()
-                .username(this.username)
-                .password(this.password)
+                .id(usersEntity.getId())
+                .username(usersEntity.getUsername())
                 .build();
     }
 }
