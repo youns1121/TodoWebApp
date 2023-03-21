@@ -15,6 +15,11 @@ public class ResponseHandler {
         return makeResponseMessage(new SuccessResponseUtil());
     }
 
+    /** 완료 및 동적 클래스 데이터 응답 **/
+    public <T> ResponseEntity<CommonResponseUtil<T>> ok(Object resultObj) {
+        return makeResponseMessage(new SuccessResponseUtil(resultObj));
+    }
+
     /** 실패 응답 **/
     public <T> ResponseEntity<CommonResponseUtil<T>> fail() {
         return makeResponseMessage(new FailResponseUtil());

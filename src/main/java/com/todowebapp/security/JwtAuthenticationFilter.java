@@ -1,5 +1,6 @@
 package com.todowebapp.security;
 
+import com.todowebapp.domain.user.constants.UserConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -48,9 +49,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private String parseBearerToken(HttpServletRequest request) {
 
-        String bearerToken = request.getHeader("Authorization");
+        String bearerToken = request.getHeader(UserConstants.TOKEN_AUTH_VALUE);
 
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(UserConstants.TOKEN_BEARER_VALUE)) {
             return bearerToken.substring(7);
         }
         return null;

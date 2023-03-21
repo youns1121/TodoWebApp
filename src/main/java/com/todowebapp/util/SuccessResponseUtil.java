@@ -12,4 +12,8 @@ public class SuccessResponseUtil extends CommonResponseUtil {
     public SuccessResponseUtil(String resultMsg) {
         super(RESULT_CODE, resultMsg, null);
     }
+
+    public SuccessResponseUtil(Object resultObj) {
+        super(RESULT_CODE, ResponseEnum.OK.getValue(), resultObj);
+    }
 }
