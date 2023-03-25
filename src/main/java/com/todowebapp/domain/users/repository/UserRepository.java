@@ -1,11 +1,11 @@
-package com.todowebapp.domain.user.repository;
+package com.todowebapp.domain.users.repository;
 
-import com.todowebapp.domain.user.domain.Users;
+import com.todowebapp.domain.users.domain.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<Users, String> {
+public interface UserRepository extends JpaRepository<Users, Long> {
 
     Optional<Users> findByUsername(String username);
 

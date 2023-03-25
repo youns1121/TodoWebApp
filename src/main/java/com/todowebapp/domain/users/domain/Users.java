@@ -1,13 +1,12 @@
-package com.todowebapp.domain.user.domain;
+package com.todowebapp.domain.users.domain;
 
 import com.todowebapp.domain.Salt.Salt;
-import com.todowebapp.domain.user.enums.UserRole;
-import com.todowebapp.domain.user.dto.UserDTO;
+import com.todowebapp.domain.users.enums.UserRole;
+import com.todowebapp.domain.users.dto.UsersDTO;
 import com.todowebapp.util.SaltUtil;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -19,9 +18,9 @@ import java.time.LocalDateTime;
 public class Users {
 
     @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "seq")
+    private long seq;
 
     @Column(name = "username", nullable = false)
     private String username;
@@ -49,8 +48,8 @@ public class Users {
 
 
     @Builder
-    public Users(String id, String username, String password, Salt salt, UserStatus userStatus, UserRole userRole, LocalDateTime regiDatetime, LocalDateTime updDatetime) {
-        this.id = id;
+    public Users(long seq, String username, String password, Salt salt, UserStatus userStatus, UserRole userRole, LocalDateTime regiDatetime, LocalDateTime updDatetime) {
+        this.seq = seq;
         this.username = username;
         this.password = password;
         this.salt = salt;
@@ -60,16 +59,20 @@ public class Users {
         this.updDatetime = updDatetime;
     }
 
-    public static Users createUser(UserDTO userDTO, SaltUtil saltUtil) {
+    public static Users createUser(UsersDTO usersDTO, SaltUtil saltUtil) {
         String salt = saltUtil.genSalt();
         return Users.builder()
                 .salt(new Salt(salt))
-                .username(userDTO.getUsername())
-                .password(saltUtil.encodePassword(salt, userDTO.getPassword()))
+                .username(usersDTO.getUsername())
+                .password(saltUtil.encodePassword(salt, usersDTO.getPassword()))
                 .userRole(UserRole.ROLE_USER)
                 .userStatus(UserStatus.NORMAL)
                 .regiDatetime(LocalDateTime.now())
                 .updDatetime(LocalDateTime.now())
                 .build();
+    }
+
+    public static Users createUsersToken(String refreshUsername) {
+        return Users.builder().username(refreshUsername).build();
     }
 }

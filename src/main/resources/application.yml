@@ -2,9 +2,10 @@ server:
   port: 8080
 
 spring:
+  jwt:
+    secret: NMA8JPctFuna59f5NMA8JPctFuna59f5NMA8JPctFuna59f5NMA8JPctFuna59f5NMA8JPctFuna59f5NMA8JPctFuna59f5NMA8JPctFuna59f5NMA8JPctFuna59f5NMA8JPctFuna59f5NMA8JPctFuna59f5
   profiles:
     default: dev # 기본 환경을 dev로
-
   mvc:
     path match:
       matching-strategy: ant_path_matcher

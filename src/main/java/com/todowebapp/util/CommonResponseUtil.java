@@ -48,11 +48,10 @@ public class CommonResponseUtil<T> {
         this.responseDateTime = LocalDate.now() + " " + LocalTime.now();
     }
 
-    public CommonResponseUtil(int status, String resultCode, String resultMsg, T resultObj){
+    public CommonResponseUtil(int status, String resultCode, String resultMsg){
         this.status = status;
         this.resultCode = resultCode;
         this.resultMsg = resultMsg;
-        this.data = resultObj;
         this.responseDateTime = LocalDate.now() + " " + LocalTime.now();
     }
 }

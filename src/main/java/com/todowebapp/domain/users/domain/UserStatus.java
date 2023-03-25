@@ -1,4 +1,4 @@
-package com.todowebapp.domain.user.domain;
+package com.todowebapp.domain.users.domain;
 
 public enum UserStatus {
     NORMAL("일반 사용자"),
