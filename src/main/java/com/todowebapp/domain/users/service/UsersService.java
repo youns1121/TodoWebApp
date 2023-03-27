@@ -47,7 +47,8 @@ public class UsersService implements UserDetailsService {
     @Transactional(readOnly = true)
     public Users getByCredentials(final String username, final String password, final PasswordEncoder encoder) {
 
-        Users originalUsers = userRepository.findByUsername(username).orElse(null);
+        Users originalUsers = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(UserEnums.USERNAME_NOT_FOUND.getValue()));
 
         if(originalUsers != null && encoder.matches(password, originalUsers.getPassword())) {
             return originalUsers;
