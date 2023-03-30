@@ -1,13 +1,12 @@
 package com.todowebapp.domain.todo.service;
 
-import com.todowebapp.domain.todo.domain.TodoEntity;
+import com.todowebapp.domain.todo.dto.TodoDTO;
 import com.todowebapp.domain.todo.repository.TodoRepository;
+import com.todowebapp.enums.ResponseEnum;
+import com.todowebapp.util.AuthenticationUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -15,86 +14,22 @@ import java.util.Optional;
 public class TodoService {
 
     private final TodoRepository todoRepository;
+    private final AuthenticationUtil authenticationUtil;
 
     public String testService(){
         return "Test Service";
     }
 
-    public List<TodoEntity> create(final TodoEntity entity) {
+    public ResponseEnum create(final TodoDTO todoDTO) {
 
-        if(entity == null){
+        todoDTO.setUsersSeq(authenticationUtil.getUsersSeq());
+        if(todoDTO == null){
             log.warn("Entity cannot be null");
             throw new RuntimeException("Entity be null");
         }
 
-        if (entity.getUserId() == null){
-            log.warn("Unknown user");
-            throw new RuntimeException("Unknown user");
-        }
+        todoRepository.save(todoDTO.toEntity(todoDTO));
 
-        todoRepository.save(entity);
-
-        log.info("Entity Id : {} is saved", entity.getId());
-
-        return todoRepository.findByUserId(entity.getUserId());
-    }
-
-
-//    public List<TodoEntity> update(final TodoEntity entity) {
-//        validate(entity);
-//
-//        Optional<TodoEntity> original = todoRepository.findById(entity.getId());
-//        original.ifPresent(todo -> {
-//            todo.setTitle(entity.getTitle());
-//            todo.setDone(entity.isDone());
-//
-//            todoRepository.save(todo);
-//        });
-//
-//        return retrieve(entity.getUserId());
-//    }
-
-    public List<TodoEntity> update(final TodoEntity entity) {
-
-        validate(entity);
-
-        Optional<TodoEntity> original = todoRepository.findById(entity.getId());
-        if(original.isPresent()) {
-            final TodoEntity todo = original.get();
-            todo.setTitle(entity.getTitle());
-            todo.setDone(entity.isDone());
-
-            todoRepository.save(todo);
-        }
-
-        return retrieve(entity.getUserId());
-    }
-
-    public List<TodoEntity> delete(final TodoEntity entity) {
-        validate(entity);
-
-        try {
-            todoRepository.delete(entity);
-        } catch (Exception e) {
-            log.error("error deleting entity", entity.getId(), e);
-            throw new RuntimeException("error deleting entity" + entity.getId());
-        }
-        return retrieve(entity.getUserId());
-    }
-
-    public List<TodoEntity> retrieve(final String userId) {
-        return todoRepository.findByUserId(userId);
-    }
-
-    private void validate(final TodoEntity entity){
-        if(entity == null){
-            log.warn("Entity cannot be null");
-            throw new RuntimeException("Entity cannot be null");
-        }
-
-        if(entity.getUserId() == null){
-            log.warn("Unknown user");
-            throw new RuntimeException("Unknown user.");
-        }
+        return ResponseEnum.OK;
     }
 }
